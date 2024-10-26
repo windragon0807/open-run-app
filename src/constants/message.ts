@@ -1,0 +1,4 @@
+export enum Message {
+  WEBVIEW_READY = 'WEBVIEW_READY',
+  RENDER_READY = 'RENDER_READY',
+}

@@ -1,118 +1,101 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useRef, useState} from 'react';
+import {View, StyleSheet, StatusBar, Platform, Image} from 'react-native';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
+  WebView,
+  WebViewNavigation,
+  WebViewMessageEvent,
+} from 'react-native-webview';
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import {Message} from './src/constants/message';
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const WEBVIEW_URL = 'http://localhost:3000';
+
+const getStatusBarHeight = (safeAreaTop: number): number => {
+  if (Platform.OS === 'android') {
+    return StatusBar.currentHeight || 0;
+  }
+  return safeAreaTop;
+};
+
+function AppContent(): React.JSX.Element {
+  const webViewRef = useRef<WebView>(null);
+  const insets = useSafeAreaInsets();
+  const statusBarHeight = getStatusBarHeight(insets.top);
+  const [showSplash, setShowSplash] = useState(true);
+
+  const onNavigationStateChange = (navState: WebViewNavigation) => {
+    console.log('NAVIGATION', navState);
+  };
+
+  const onMessage = (event: WebViewMessageEvent) => {
+    const data = JSON.parse(event.nativeEvent.data);
+    console.info('MESSAGE', data);
+    if (data.type === Message.WEBVIEW_READY) {
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(JSON.stringify({statusBarHeight}));
+      }
+    }
+
+    if (data.type === Message.RENDER_READY) {
+      setShowSplash(false);
+    }
+  };
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <WebView
+        ref={webViewRef}
+        source={{uri: WEBVIEW_URL}}
+        style={styles.webview}
+        onNavigationStateChange={onNavigationStateChange}
+        onMessage={onMessage}
+      />
+      {showSplash && (
+        <View style={styles.splashContainer}>
+          <Image
+            source={require('./src/assets/images/splash.png')}
+            style={styles.splashImage}
+            resizeMode="contain"
+          />
+        </View>
+      )}
     </View>
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+/* SafeAreaProvider를 하단의 AppContent의 최상단에 적용하면 희한하게 에러가 발생함 */
+export default function App(): React.JSX.Element {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <AppContent />
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  webview: {
+    flex: 1,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  splashContainer: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#4A5CEF',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  highlight: {
-    fontWeight: '700',
+  splashImage: {
+    width: '100%',
+    height: '100%',
   },
 });
-
-export default App;
