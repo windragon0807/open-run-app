@@ -12,7 +12,8 @@ import {
 
 import {Message} from './src/constants/message';
 
-const WEBVIEW_URL = 'http://localhost:3000';
+// const WEBVIEW_URL = 'http://localhost:3000';
+const WEBVIEW_URL = 'https://open-run.vercel.app';
 
 const getStatusBarHeight = (safeAreaTop: number): number => {
   if (Platform.OS === 'android') {
@@ -58,6 +59,10 @@ function AppContent(): React.JSX.Element {
         style={styles.webview}
         onNavigationStateChange={onNavigationStateChange}
         onMessage={onMessage}
+        javaScriptEnabled
+        domStorageEnabled
+        originWhitelist={['*']}
+        mixedContentMode="always"
       />
       {showSplash && (
         <View style={styles.splashContainer}>
