@@ -18,7 +18,8 @@
         {
           "locationAlwaysAndWhenInUsePermission": "앱이 위치 정보를 사용하여 주변 정보를 제공합니다."
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "splash": {
       "image": "./assets/splash-icon.png",
