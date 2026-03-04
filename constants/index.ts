@@ -1,4 +1,5 @@
-const HomeURL = "https://open-run.vercel.app/";
-const DevURL = "https://laughably-unblended-tiera.ngrok-free.dev/"; // 여기에 실제 컴퓨터의 IP 주소를 입력하세요
+export const DEFAULT_APP_URL = "https://open-run.vercel.app/";
+export const DEFAULT_DEV_URL = "https://laughably-unblended-tiera.ngrok-free.dev/";
 
-export const URL = HomeURL;
+// Backward compatibility for existing imports.
+export const URL = DEFAULT_APP_URL;

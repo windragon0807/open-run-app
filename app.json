@@ -26,14 +26,24 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.win-dragon.open-run-expo",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "오픈런에서 내 주변 매장/이벤트 정보를 제공하기 위해 위치 정보가 필요합니다.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "오픈런에서 내 주변 매장/이벤트 정보를 제공하기 위해 위치 정보가 필요합니다.",
+        "NSLocationAlwaysUsageDescription": "오픈런에서 내 주변 매장/이벤트 정보를 제공하기 위해 위치 정보가 필요합니다."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
