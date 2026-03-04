@@ -49,7 +49,12 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "ONCHAINKIT_API_KEY": "AIzaSyDEYLiAvcL-MChUfadGX8UvVRHBUBpp040"
-    }
+      "ONCHAINKIT_API_KEY": "AIzaSyDEYLiAvcL-MChUfadGX8UvVRHBUBpp040",
+      "router": {},
+      "eas": {
+        "projectId": "7352f94b-a258-4dd1-b01b-f42abfc753e9"
+      }
+    },
+    "owner": "win_dragon"
   }
 }
