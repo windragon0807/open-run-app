@@ -32,7 +32,8 @@
         "NSLocationWhenInUseUsageDescription": "오픈런에서 내 주변 매장/이벤트 정보를 제공하기 위해 위치 정보가 필요합니다.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "오픈런에서 내 주변 매장/이벤트 정보를 제공하기 위해 위치 정보가 필요합니다.",
         "NSLocationAlwaysUsageDescription": "오픈런에서 내 주변 매장/이벤트 정보를 제공하기 위해 위치 정보가 필요합니다."
-      }
+      },
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -42,8 +43,13 @@
       "edgeToEdgeEnabled": true,
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
-      ]
+      ],
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -55,6 +61,9 @@
         "projectId": "7352f94b-a258-4dd1-b01b-f42abfc753e9"
       }
     },
-    "owner": "win_dragon"
+    "owner": "win_dragon",
+    "updates": {
+      "url": "https://u.expo.dev/7352f94b-a258-4dd1-b01b-f42abfc753e9"
+    }
   }
 }
